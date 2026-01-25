@@ -1,8 +1,8 @@
-PWD e:/CourseCode/CV/report
+PWD e:/CourseCode/CV/2025Fall-CV-FinalReport/report
 INPUT d:/texlive/2025/texmf.cnf
 INPUT d:/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT d:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT e:/CourseCode/CV/report/report.tex
+INPUT e:/CourseCode/CV/2025Fall-CV-FinalReport/report/report.tex
 OUTPUT report.log
 INPUT d:/texlive/2025/texmf-dist/tex/latex/base/article.cls
 INPUT d:/texlive/2025/texmf-dist/tex/latex/base/article.cls
