@@ -116,6 +116,12 @@
   must be limited to one paragraph.
 \end{abstract}
 
+\section{Introduction}
+High-fidelity 3D facial reconstruction has long been a cornerstone in applications ranging from clinical diagnostics and plastic surgery planning to virtual avatars and biometric authentication. Traditionally, this task has relied on specialized multi-view or structured-light systems—such as the commercial 3dMD suite—which, while capable of sub-millimeter accuracy, impose significant barriers in terms of cost, portability, and operational complexity. These systems typically require controlled lighting, calibrated multi-camera rigs, and expert supervision, rendering them impractical for point-of-care settings, telemedicine, or large-scale deployment in resource-constrained environments.
+
+Recent advances in neural rendering and geometry representation—particularly 3D Gaussian Splatting (3DGS) and its downstream meshing pipelines like GS2Mesh—have opened new avenues for high-quality 3D reconstruction from unstructured, casually captured video. Unlike traditional methods, these approaches can leverage monocular input from commodity mobile devices, democratizing access to 3D facial modeling without sacrificing geometric fidelity. However, bridging the gap between unconstrained smartphone footage and clinically viable reconstructions remains challenging due to issues such as motion blur, limited viewpoint coverage, and illumination variability.
+
+In this work, we propose a practical, end-to-end framework that harnesses the expressive power of Gaussian-based representations to reconstruct detailed, watertight 3D face meshes directly from short, handheld videos captured by everyday smartphones. By integrating robust pose initialization, adaptive densification, and topology-aware mesh extraction, our pipeline not only bypasses the need for expensive hardware but also simplifies the user workflow to a “point-and-shoot” experience. We demonstrate that our method achieves reconstruction quality comparable to professional 3dMD systems at a fraction of the cost and complexity, thereby enabling scalable, accessible 3D facial modeling for both medical and consumer applications.
 
 \section{Submission of papers to NeurIPS 2024}
 
