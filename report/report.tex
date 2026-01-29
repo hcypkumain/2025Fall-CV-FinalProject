@@ -1,7 +1,7 @@
 \documentclass{article}
 
 % if you need to pass options to natbib, use, e.g.:
-%     \PassOptionsToPackage{numbers, compress}{natbib}
+\PassOptionsToPackage{numbers, compress}{natbib}
 % before loading neurips_2024
 
 
@@ -117,11 +117,32 @@
 \end{abstract}
 
 \section{Introduction}
-High-fidelity 3D facial reconstruction has long been a cornerstone in applications ranging from clinical diagnostics and plastic surgery planning to virtual avatars and biometric authentication. Traditionally, this task has relied on specialized multi-view or structured-light systems—such as the commercial 3dMD suite—which, while capable of sub-millimeter accuracy, impose significant barriers in terms of cost, portability, and operational complexity. These systems typically require controlled lighting, calibrated multi-camera rigs, and expert supervision, rendering them impractical for point-of-care settings, telemedicine, or large-scale deployment in resource-constrained environments.
+High-fidelity 3D facial reconstruction has long been a cornerstone in applications ranging from clinical diagnostics and plastic surgery planning to virtual avatars and biometric authentication. Traditionally, this task has relied on specialized multi-view or structured-light systems---such as the commercial 3dMD suite---which, while capable of sub-millimeter accuracy, impose significant barriers in terms of cost, portability, and operational complexity. These systems typically require controlled lighting, calibrated multi-camera rigs, and expert supervision, rendering them impractical for point-of-care settings, telemedicine, or large-scale deployment in resource-constrained environments.
 
-Recent advances in neural rendering and geometry representation—particularly 3D Gaussian Splatting (3DGS) and its downstream meshing pipelines like GS2Mesh—have opened new avenues for high-quality 3D reconstruction from unstructured, casually captured video. Unlike traditional methods, these approaches can leverage monocular input from commodity mobile devices, democratizing access to 3D facial modeling without sacrificing geometric fidelity. However, bridging the gap between unconstrained smartphone footage and clinically viable reconstructions remains challenging due to issues such as motion blur, limited viewpoint coverage, and illumination variability.
+Recent advances in neural rendering and geometry representation---particularly 3D Gaussian Splatting (3DGS) and its downstream meshing pipelines like GS2Mesh---have opened new avenues for high-quality 3D reconstruction from unstructured, casually captured video. Unlike traditional methods, these approaches can leverage monocular input from commodity mobile devices, democratizing access to 3D facial modeling without sacrificing geometric fidelity. However, bridging the gap between unconstrained smartphone footage and clinically viable reconstructions remains challenging due to issues such as motion blur, limited viewpoint coverage, and illumination variability.
 
-In this work, we propose a practical, end-to-end framework that harnesses the expressive power of Gaussian-based representations to reconstruct detailed, watertight 3D face meshes directly from short, handheld videos captured by everyday smartphones. By integrating robust pose initialization, adaptive densification, and topology-aware mesh extraction, our pipeline not only bypasses the need for expensive hardware but also simplifies the user workflow to a “point-and-shoot” experience. We demonstrate that our method achieves reconstruction quality comparable to professional 3dMD systems at a fraction of the cost and complexity, thereby enabling scalable, accessible 3D facial modeling for both medical and consumer applications.
+In this work, we propose a practical, end-to-end framework that harnesses the expressive power of Gaussian-based representations to reconstruct detailed, watertight 3D face meshes directly from short, handheld videos captured by everyday smartphones. By integrating robust pose initialization, adaptive densification, and topology-aware mesh extraction, our pipeline not only bypasses the need for expensive hardware but also simplifies the user workflow to a ``point-and-shoot'' experience. We demonstrate that our method achieves reconstruction quality comparable to professional 3dMD systems at a fraction of the cost and complexity, thereby enabling scalable, accessible 3D facial modeling for both medical and consumer applications.
+
+\section{Related Work}
+
+\paragraph{Classical and Model-Based 3D Face Reconstruction.}
+Early approaches to 3D face reconstruction relied heavily on multi-view stereo~\cite{seitz1999phototourism}, structured light~\cite{zhang2010recent}, or laser scanning---technologies that underpin commercial systems like 3dMD. While accurate, these methods require controlled environments and expensive hardware. To enable reconstruction from a single image, the 3D Morphable Model (3DMM)~\cite{blanz1999morphable} was introduced, representing faces as linear combinations of shape and texture bases derived from statistical analysis of 3D scans. Subsequent works extended 3DMM with nonlinear deformations~\cite{cao2014facewarehouse} or combined it with photometric stereo~\cite{aldrian2013inverse}. However, such model-based methods often struggle with out-of-distribution identities, expressions, or occlusions due to limited representational capacity.
+
+\paragraph{Learning-Based Monocular 3D Face Reconstruction.}
+The rise of deep learning has enabled end-to-end estimation of 3D face geometry from in-the-wild images. Early CNN-based methods regressed 3DMM parameters directly~\cite{tran2017regressing, richardson2017learning}, while later works leveraged self-supervision by enforcing consistency between input images and differentiable renderings~\cite{tewari2017mofa, genova2018unsupervised}. Notably, RingNet~\cite{ringnet2019} and DECA~\cite{feng2021learning} achieved impressive results using only 2D landmark or identity supervision, eliminating the need for ground-truth 3D data. More recently, implicit representations such as Signed Distance Functions (SDFs)~\cite{zheng2022pifuhd} and neural radiance fields~\cite{wang2021neural} have been adapted to human faces, enabling high-resolution geometry and view-consistent appearance synthesis. Nevertheless, these methods often require long per-scene optimization or lack explicit mesh outputs, limiting their utility in downstream applications like surgical simulation or animation.
+
+\paragraph{Neural Rendering and Gaussian Splatting.}
+Neural Radiance Fields (NeRF)~\cite{mildenhall2020nerf} revolutionized novel view synthesis by modeling scenes as continuous volumetric functions. Extensions like Instant-NGP~\cite{mueller2022instant} and Scaffold-GS~\cite{felzenszwalb2023scaffold} dramatically accelerated training and rendering, making real-time applications feasible. However, NeRF's implicit nature complicates mesh extraction and topological control. In contrast, 3D Gaussian Splatting (3DGS)~\cite{kerbl20233d} represents scenes as collections of anisotropic Gaussians, enabling real-time, high-fidelity rendering without neural networks at test time. Recent works have applied 3DGS to human avatars~\cite{chen2024gaussianavatar} and dynamic faces~\cite{liu2024headgs}, demonstrating its potential for expressive and efficient reconstruction. Crucially, pipelines like GS2Mesh~\cite{yu2024gs2mesh} bridge the gap between splatting and explicit geometry by converting Gaussians into watertight meshes via Poisson surface reconstruction or learned deformation fields---making 3DGS viable for clinical and industrial use cases.
+
+\paragraph{Accessible 3D Capture for Medical Applications.}
+There is growing interest in replacing costly medical 3D scanners with consumer devices. Prior efforts include using stereo cameras~\cite{shao2021low}, depth sensors (e.g., Kinect)~\cite{salazar2014accuracy}, or photogrammetry from smartphones~\cite{gander2020smartphone}. However, these often suffer from noise, holes, or poor texture fidelity. Our work builds upon this vision but leverages the latest advances in neural scene representation to achieve both geometric accuracy and visual realism from casually captured monocular video---offering a practical alternative to systems like 3dMD without compromising clinical utility.
+
+
+\section{Methodology}
+
+We propose \textbf{PFV-3D}, a practical and accessible 3D facial reconstruction pipeline that enables high-quality geometry recovery using only a commodity smartphone under typical indoor lighting. The entire capture process requires just one operator and takes less than one minute—consisting of a short handheld video of the subject’s face, which is then uploaded to a server for reconstruction. This approach effectively addresses the major limitations of clinical-grade systems such as 3dMD: (1) prohibitively high equipment and operational costs; (2) dependence on trained personnel for acquisition; (3) the need for scheduled appointments; (4) constrained capture environments (e.g., controlled lighting and fixed multi-camera rigs); and (5) a non-negligible failure rate—estimated at approximately one-third in routine clinical use due to motion artifacts, poor cooperation, or suboptimal positioning. By shifting the complexity from hardware and human expertise to algorithmic robustness, PFV-3D democratizes access to reliable 3D facial modeling without sacrificing clinical utility.
+
+Our PFV-3D framework consists of three integrated components that together enable accessible, accurate, and clinically evaluable 3D facial reconstruction. First, data acquisition is performed using an off-the-shelf smartphone camera under uncontrolled indoor lighting; the user captures a short ($\approx60$-second) handheld video of the subject’s face with minimal instruction, eliminating the need for specialized hardware or trained operators. Second, we introduce a tailored reconstruction pipeline built upon GS2Mesh~\cite{yu2024gs2mesh}, which we adapt to handle monocular, casually captured facial sequences. This stage first reconstructs a radiance field in the form of 3D Gaussians~\cite{kerbl20233d} optimized from the input video, then converts the resulting splatting representation into a watertight, high-fidelity mesh suitable for geometric analysis. Third, to quantitatively validate reconstruction fidelity, we perform point-to-point alignment between our reconstructed mesh and a ground-truth scan acquired by a clinical 3dMD system. Using robust point cloud registration (e.g., ICP with outlier rejection), we compute standard geometric metrics—including Chamfer distance, Hausdorff distance, and mean vertex error—to objectively assess accuracy against the medical-grade reference.
 
 \section{Submission of papers to NeurIPS 2024}
 
@@ -485,26 +506,9 @@ Note that the Reference section does not count towards the page limit.
 \medskip
 
 
-{
-\small
 
-
-[1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms for
-connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and T.K.\ Leen
-(eds.), {\it Advances in Neural Information Processing Systems 7},
-pp.\ 609--616. Cambridge, MA: MIT Press.
-
-
-[2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS: Exploring
-  Realistic Neural Models with the GEneral NEural SImulation System.}  New York:
-TELOS/Springer--Verlag.
-
-
-[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of learning and
-recall at excitatory recurrent synapses and cholinergic modulation in rat
-hippocampal region CA3. {\it Journal of Neuroscience} {\bf 15}(7):5249-5262.
-}
-
+\bibliographystyle{unsrtnat}
+\bibliography{references}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

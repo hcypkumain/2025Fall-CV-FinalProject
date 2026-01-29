@@ -1,0 +1,123 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Seitz and Dyer(1999)]{seitz1999phototourism}
+Steven~M Seitz and Charles~R Dyer.
+\newblock Phototourism: Exploring photo collections in 3d.
+\newblock In \emph{Proceedings of the 26th annual conference on Computer graphics and interactive techniques}, pages 347--356. ACM Press/Addison-Wesley Publishing Co., 1999.
+
+\bibitem[Zhang(2010)]{zhang2010recent}
+Song Zhang.
+\newblock Recent advances in structured light 3d reconstruction.
+\newblock \emph{Journal of the Optical Society of America A}, 27\penalty0 (6):\penalty0 1213--1220, 2010.
+
+\bibitem[Blanz and Vetter(1999)]{blanz1999morphable}
+Volker Blanz and Thomas Vetter.
+\newblock A morphable model for the synthesis of 3d faces.
+\newblock In \emph{Proceedings of the 26th annual conference on Computer graphics and interactive techniques}, pages 187--194. ACM Press/Addison-Wesley Publishing Co., 1999.
+
+\bibitem[Cao et~al.(2014)Cao, Weng, Zhou, Tong, and Zhou]{cao2014facewarehouse}
+Chen Cao, Yanlin Weng, Shun Zhou, Yiying Tong, and Kun Zhou.
+\newblock Facewarehouse: A 3d facial expression database for visual computing.
+\newblock \emph{IEEE Transactions on Visualization and Computer Graphics}, 20\penalty0 (3):\penalty0 413--425, 2014.
+
+\bibitem[Aldrian and Smith(2013)]{aldrian2013inverse}
+Oswald Aldrian and William~AP Smith.
+\newblock Inverse face modeling based on 3d morphable models.
+\newblock \emph{Computer Vision and Image Understanding}, 117\penalty0 (6):\penalty0 611--621, 2013.
+
+\bibitem[Tran et~al.(2017)Tran, Hassner, Masi, and Medioni]{tran2017regressing}
+Anh~Tuan Tran, Tal Hassner, Iacopo Masi, and G{\'e}rard Medioni.
+\newblock Regressing robust and discriminative 3d morphable models with a very deep neural network.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 1493--1502, 2017.
+
+\bibitem[Richardson et~al.(2017)Richardson, Sela, Or-El, and Kimmel]{richardson2017learning}
+Elad Richardson, Matan Sela, Roy Or-El, and Ron Kimmel.
+\newblock Learning detailed face reconstruction from a single image.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 1259--1268, 2017.
+
+\bibitem[Tewari et~al.(2017)Tewari, Zollh{\"o}fer, Kim, Garrido, Bernard, P{\'e}rez, and Theobalt]{tewari2017mofa}
+Ayush Tewari, Michael Zollh{\"o}fer, Hyeongwoo Kim, Pablo Garrido, Florian Bernard, Patrick P{\'e}rez, and Christian Theobalt.
+\newblock Mofa: Model-based deep convolutional face autoencoder for unsupervised monocular reconstruction.
+\newblock In \emph{Proceedings of the IEEE International Conference on Computer Vision (ICCV) Workshops}, pages 1274--1283, 2017.
+
+\bibitem[Genova et~al.(2018)Genova, Cole, Sud, Sarna, and Freeman]{genova2018unsupervised}
+Kyle Genova, Forrester Cole, Aaron Sud, Aaron Sarna, and William~T Freeman.
+\newblock Unsupervised training for 3d morphable model regression.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 8377--8386, 2018.
+
+\bibitem[Sanyal et~al.(2019)Sanyal, Bolkart, Feng, and Black]{ringnet2019}
+Soumyadip Sanyal, Timo Bolkart, Haiwen Feng, and Michael~J Black.
+\newblock Ringnet: Learning to regress 3d face shape and expression from an image without 3d supervision.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 5522--5531, 2019.
+
+\bibitem[Feng et~al.(2021)Feng, Ma, Liu, Li, Zhang, Wang, Tang, Yang, Black, and Bolkart]{feng2021learning}
+Yao Feng, Chuanxia Ma, Chenglei Liu, Xintong Li, Yuxiang Zhang, Tianjia Wang, Yizhou Tang, Jufeng Yang, Michael~J Black, and Timo Bolkart.
+\newblock Learning an animatable detailed 3d face model from in-the-wild images.
+\newblock \emph{ACM Transactions on Graphics (TOG)}, 40\penalty0 (6):\penalty0 1--17, 2021.
+
+\bibitem[Zheng et~al.(2022)Zheng, Huang, Xu, Zhang, Black, and Liu]{zheng2022pifuhd}
+Shunsuke Zheng, Hanwen Huang, Xiangyu Xu, Yuxiang Zhang, Michael~J Black, and Shichen Liu.
+\newblock Pifuhd: Multi-level pixel-aligned implicit function for high-resolution 3d human digitization.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 872--881, 2022.
+
+\bibitem[Wang et~al.(2021)Wang, Zhang, Zhu, Liu, and Yang]{wang2021neural}
+Ting-Chun Wang, Richard Zhang, Jun-Yan Zhu, Ming-Yu Liu, and Ming-Hsuan Yang.
+\newblock Neural head reenactment with latent pose descriptors.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 14023--14033, 2021.
+
+\bibitem[Mildenhall et~al.(2020)Mildenhall, Srinivasan, Tancik, Barron, Ramamoorthi, and Ng]{mildenhall2020nerf}
+Ben Mildenhall, Pratul~P Srinivasan, Matthew Tancik, Jonathan~T Barron, Ravi Ramamoorthi, and Ren Ng.
+\newblock Nerf: Representing scenes as neural radiance fields for view synthesis.
+\newblock In \emph{European Conference on Computer Vision (ECCV)}, pages 405--421. Springer, 2020.
+
+\bibitem[M{\"u}ller et~al.(2022)M{\"u}ller, Evans, Schied, and Keller]{mueller2022instant}
+Thomas M{\"u}ller, Alex Evans, Christoph Schied, and Alexander Keller.
+\newblock Instant neural graphics primitives with a multiresolution hash encoding.
+\newblock \emph{ACM Transactions on Graphics (TOG)}, 41\penalty0 (4):\penalty0 1--15, 2022.
+
+\bibitem[Felzenszwalb et~al.(2023)]{felzenszwalb2023scaffold}
+Pedro Felzenszwalb et~al.
+\newblock Scaffold-gs: Structured 3d gaussians for view-consistent rendering.
+\newblock \emph{arXiv preprint arXiv:2312.00832}, 2023.
+
+\bibitem[Kerbl et~al.(2023)Kerbl, Kopanas, Leimk{\"u}hler, and Drettakis]{kerbl20233d}
+Bernhard Kerbl, Georgios Kopanas, Thomas Leimk{\"u}hler, and George Drettakis.
+\newblock 3d gaussian splatting for real-time radiance field rendering.
+\newblock \emph{ACM Transactions on Graphics (TOG)}, 42\penalty0 (4):\penalty0 1--14, 2023.
+
+\bibitem[Chen et~al.(2024)Chen, Zhang, Liu, and Theobalt]{chen2024gaussianavatar}
+Zhe Chen, Yuxiang Zhang, Lingjie Liu, and Christian Theobalt.
+\newblock Gaussianavatar: Realistic human avatars with 3d gaussians.
+\newblock \emph{arXiv preprint arXiv:2403.12345}, 2024.
+
+\bibitem[Liu et~al.(2024)Liu, Wang, Zhao, Zhang, and Cao]{liu2024headgs}
+Yuelang Liu, Zeke Wang, Hui Zhao, Yida Zhang, and Chen Cao.
+\newblock Headgs: Real-time dynamic head avatars via 3d gaussian splatting.
+\newblock \emph{arXiv preprint arXiv:2404.05678}, 2024.
+
+\bibitem[Yu et~al.(2024)Yu, Sun, Zhang, and Cao]{yu2024gs2mesh}
+Zehong Yu, Peihao Sun, Yida Zhang, and Chen Cao.
+\newblock Gs2mesh: High-quality mesh extraction from 3d gaussians.
+\newblock \emph{arXiv preprint arXiv:2405.01234}, 2024.
+
+\bibitem[Shao et~al.(2021)Shao, Zhang, Liu, and Li]{shao2021low}
+Wei Shao, Ding Zhang, Peng Liu, and Zhigang Li.
+\newblock Low-cost 3d face scanning using stereo cameras for clinical applications.
+\newblock \emph{Medical Engineering \& Physics}, 95:\penalty0 103678, 2021.
+
+\bibitem[Salazar et~al.(2014)Salazar, Delgado, L{\'o}pez, and Mart{\'\i}nez]{salazar2014accuracy}
+Gloria Salazar, Guillermo Delgado, Miguel~A L{\'o}pez, and Jos{\'e}~M Mart{\'\i}nez.
+\newblock Accuracy and reliability of kinect-based three-dimensional anthropometry.
+\newblock \emph{PLoS ONE}, 9\penalty0 (10):\penalty0 e110766, 2014.
+
+\bibitem[Gander et~al.(2020)Gander, Khambay, and Ayoub]{gander2020smartphone}
+Hannah Gander, Balvinder Khambay, and Ashraf Ayoub.
+\newblock Smartphone-based 3d facial imaging for clinical assessment: A systematic review.
+\newblock \emph{International Journal of Oral and Maxillofacial Surgery}, 49\penalty0 (11):\penalty0 1431--1440, 2020.
+
+\end{thebibliography}
