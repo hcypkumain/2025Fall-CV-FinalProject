@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -119,5 +119,15 @@ Gloria Salazar, Guillermo Delgado, Miguel~A L{\'o}pez, and Jos{\'e}~M Mart{\'\i}
 Hannah Gander, Balvinder Khambay, and Ashraf Ayoub.
 \newblock Smartphone-based 3d facial imaging for clinical assessment: A systematic review.
 \newblock \emph{International Journal of Oral and Maxillofacial Surgery}, 49\penalty0 (11):\penalty0 1431--1440, 2020.
+
+\bibitem[Kannala and Brandt(2006)]{kannala2006generic}
+Juho Kannala and Sami~S Brandt.
+\newblock A generic camera model and calibration method for conventional, wide-angle, and fish-eye lenses.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, 28\penalty0 (8):\penalty0 1335--1340, 2006.
+
+\bibitem[Zhang(2000)]{zhang2000flexible}
+Zhengyou Zhang.
+\newblock A flexible new technique for camera calibration.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, 22\penalty0 (11):\penalty0 1330--1334, 2000.
 
 \end{thebibliography}
