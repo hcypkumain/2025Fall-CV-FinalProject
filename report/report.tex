@@ -32,6 +32,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
+\usepackage{graphicx}
+
 
 \title{Heavy Machine Out, We Have 3DGS Now!}
 
@@ -142,7 +144,15 @@ There is growing interest in replacing costly medical 3D scanners with consumer 
 
 We propose \textbf{PFV-3D}, a practical and accessible 3D facial reconstruction pipeline that enables high-quality geometry recovery using only a commodity smartphone under typical indoor lighting. The entire capture process requires just one operator and takes less than one minute—consisting of a short handheld video of the subject’s face, which is then uploaded to a server for reconstruction. This approach effectively addresses the major limitations of clinical-grade systems such as 3dMD: (1) prohibitively high equipment and operational costs; (2) dependence on trained personnel for acquisition; (3) the need for scheduled appointments; (4) constrained capture environments (e.g., controlled lighting and fixed multi-camera rigs); and (5) a non-negligible failure rate—estimated at approximately one-third in routine clinical use due to motion artifacts, poor cooperation, or suboptimal positioning. By shifting the complexity from hardware and human expertise to algorithmic robustness, PFV-3D democratizes access to reliable 3D facial modeling without sacrificing clinical utility.
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{framework_image.pdf}
+  \caption{Overview of the PFV-3D framework.}
+  \label{fig:framework}
+\end{figure}
+
 Our PFV-3D framework consists of three integrated components that together enable accessible, accurate, and clinically evaluable 3D facial reconstruction. First, data acquisition is performed using an off-the-shelf smartphone camera under uncontrolled indoor lighting; the user captures a short ($\approx60$-second) handheld video of the subject’s face with minimal instruction, eliminating the need for specialized hardware or trained operators. Second, we introduce a tailored reconstruction pipeline built upon GS2Mesh~\cite{yu2024gs2mesh}, which we adapt to handle monocular, casually captured facial sequences. This stage first reconstructs a radiance field in the form of 3D Gaussians~\cite{kerbl20233d} optimized from the input video, then converts the resulting splatting representation into a watertight, high-fidelity mesh suitable for geometric analysis. Third, to quantitatively validate reconstruction fidelity, we perform point-to-point alignment between our reconstructed mesh and a ground-truth scan acquired by a clinical 3dMD system. Using robust point cloud registration (e.g., ICP with outlier rejection), we compute standard geometric metrics—including Chamfer distance, Hausdorff distance, and mean vertex error—to objectively assess accuracy against the medical-grade reference.
+
 
 \section{Submission of papers to NeurIPS 2024}
 
