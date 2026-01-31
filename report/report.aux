@@ -1,7 +1,7 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\providecommand\HyField@AuxAddToFields[1]{}
-\providecommand\HyField@AuxAddToCoFields[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
 \providecommand \oddpage@label [2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
 \citation{seitz1999phototourism}
@@ -15,6 +15,12 @@
 \citation{feng2021learning}
 \citation{zheng2022pifuhd}
 \citation{wang2021neural}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison between our phone-based method and existing heavy machine-based approaches.}}{2}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:compare}{{1}{2}{Comparison between our phone-based method and existing heavy machine-based approaches}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Classical and Model-Based 3D Face Reconstruction.}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Learning-Based Monocular 3D Face Reconstruction.}{2}{section*.4}\protected@file@percent }
 \citation{mildenhall2020nerf}
 \citation{mueller2022instant}
 \citation{felzenszwalb2023scaffold}
@@ -22,23 +28,17 @@
 \citation{chen2024gaussianavatar}
 \citation{liu2024headgs}
 \citation{yu2024gs2mesh}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison between our phone-based method and existing heavy machine-based approaches.}}{2}{figure.caption.2}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:compare}{{1}{2}{Comparison between our phone-based method and existing heavy machine-based approaches}{figure.caption.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Classical and Model-Based 3D Face Reconstruction.}{2}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Learning-Based Monocular 3D Face Reconstruction.}{2}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Neural Rendering and Gaussian Splatting.}{2}{section*.5}\protected@file@percent }
 \citation{shao2021low}
 \citation{salazar2014accuracy}
 \citation{gander2020smartphone}
 \citation{yu2024gs2mesh}
 \citation{kerbl20233d}
+\citation{kannala2006generic}
+\@writefile{toc}{\contentsline {paragraph}{Neural Rendering and Gaussian Splatting.}{3}{section*.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Accessible 3D Capture for Medical Applications.}{3}{section*.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{3}{section.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the PFV-3D framework.}}{3}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:framework}{{2}{3}{Overview of the PFV-3D framework}{figure.caption.7}{}}
-\citation{kannala2006generic}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of the PFV-3D framework.}}{4}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:framework}{{2}{4}{Overview of the PFV-3D framework}{figure.caption.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Fisheye-Aware Camera Model for Multi-View Reconstruction}{4}{subsection.3.1}\protected@file@percent }
 \newlabel{subsec:fisheye_model}{{3.1}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{subsection.3.1}{}}
 \newlabel{eq:rigid_transform}{{1}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.1}{}}
@@ -46,27 +46,87 @@
 \newlabel{eq:kb_pixel}{{5}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.5}{}}
 \newlabel{eq:int_params}{{6}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.6}{}}
 \newlabel{eq:ext_params}{{7}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.7}{}}
-\newlabel{eq:ba_loss}{{8}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.8}{}}
-\newlabel{eq:normalization}{{9}{4}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.9}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces KB-BA: Fisheye-Aware Bundle Adjustment}}{5}{algocf.1}\protected@file@percent }
-\newlabel{alg:kb_ba}{{1}{5}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{algocf.1}{}}
+\newlabel{eq:ba_loss}{{8}{5}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.8}{}}
+\newlabel{eq:normalization}{{9}{5}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.9}{}}
 \newlabel{eq:newton}{{10}{5}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.10}{}}
 \newlabel{eq:backproj_ray}{{11}{5}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{equation.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Mathematical Formulation of Rigid Registration via Corresponding Landmarks}{5}{subsection.3.2}\protected@file@percent }
 \newlabel{subsec:math_registration}{{3.2}{5}{Mathematical Formulation of Rigid Registration via Corresponding Landmarks}{subsection.3.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Step 1: Centroid removal (translation decoupling)}{6}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Step 2: Optimal rotation via SVD (Kabsch algorithm)}{6}{section*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Step 3: Translation recovery}{6}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Post-registration error metric}{6}{section*.18}\protected@file@percent }
+\newlabel{eq:kabsch_objective}{{12}{5}{Mathematical Formulation of Rigid Registration via Corresponding Landmarks}{equation.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Step 1: Centroid removal (translation decoupling)}{5}{section*.9}\protected@file@percent }
+\newlabel{eq:kabsch_rotation}{{15}{5}{Step 1: Centroid removal (translation decoupling)}{equation.15}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces KB-BA: Fisheye-Aware Bundle Adjustment}}{6}{algocf.1}\protected@file@percent }
+\newlabel{alg:kb_ba}{{1}{6}{Fisheye-Aware Camera Model for Multi-View Reconstruction}{algocf.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Step 2: Optimal rotation via SVD (Kabsch algorithm)}{6}{section*.10}\protected@file@percent }
+\newlabel{eq:cross_covariance}{{16}{6}{Step 2: Optimal rotation via SVD (Kabsch algorithm)}{equation.16}{}}
+\newlabel{eq:kabsch_svd}{{17}{6}{Step 2: Optimal rotation via SVD (Kabsch algorithm)}{equation.17}{}}
+\newlabel{eq:kabsch_rotation_matrix}{{18}{6}{Step 2: Optimal rotation via SVD (Kabsch algorithm)}{equation.18}{}}
+\@writefile{toc}{\contentsline {paragraph}{Step 3: Translation recovery}{6}{section*.11}\protected@file@percent }
+\newlabel{eq:kabsch_translation}{{19}{6}{Step 3: Translation recovery}{equation.19}{}}
+\@writefile{toc}{\contentsline {paragraph}{Post-registration error metric}{6}{section*.12}\protected@file@percent }
+\newlabel{eq:registration_residual}{{20}{6}{Post-registration error metric}{equation.20}{}}
+\newlabel{eq:registration_rmse}{{21}{7}{Post-registration error metric}{equation.21}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Point Cloud Similarity Metrics: F1-Score and Chamfer Distance}{7}{subsection.3.3}\protected@file@percent }
 \newlabel{subsec:similarity_metrics}{{3.3}{7}{Point Cloud Similarity Metrics: F1-Score and Chamfer Distance}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Chamfer Distance (CD)}{7}{section*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{F1-Score}{7}{section*.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Why These Metrics?}{7}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Chamfer Distance (CD)}{7}{section*.13}\protected@file@percent }
+\newlabel{eq:chamfer_distance}{{22}{7}{Chamfer Distance (CD)}{equation.22}{}}
+\@writefile{toc}{\contentsline {paragraph}{F1-Score}{7}{section*.14}\protected@file@percent }
+\newlabel{eq:f1_score}{{26}{7}{F1-Score}{equation.26}{}}
+\citation{mai2024reliable,zhu2009unsupervised,kazemi2014one}
+\citation{horn1987closed}
+\citation{mai2024reliable}
+\citation{chen2022face,sagonas2013300}
+\citation{dan2020joint,bulat20173d}
+\@writefile{toc}{\contentsline {paragraph}{Why These Metrics?}{8}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{8}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{8}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Video Data Comparison}}{8}{table.caption.16}\protected@file@percent }
+\newlabel{tab:data_comparison}{{1}{8}{Video Data Comparison}{table.caption.16}{}}
+\citation{zhu2009unsupervised}
+\citation{kazemi2014one}
+\citation{colmap}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Effect of Frame Rate on Reconstruction Quality}{9}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Ablation Study}{9}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{FPS Ablation}{9}{section*.18}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Evaluation of reconstruction accuracy at tolerance thresholds of 1–4 mm for two frame rates: FPS=1 and FPS=3. Each subtable reports precision (p), recall (r), and F-score (f) for four methods. Higher values indicate better alignment with the ground-truth point cloud.}}{10}{table.caption.17}\protected@file@percent }
+\newlabel{tab:reconstruction_metrics_combined}{{2}{10}{Evaluation of reconstruction accuracy at tolerance thresholds of 1–4 mm for two frame rates: FPS=1 and FPS=3. Each subtable reports precision (p), recall (r), and F-score (f) for four methods. Higher values indicate better alignment with the ground-truth point cloud}{table.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Reconstruction metrics across different frame rates.}}{10}{table.caption.19}\protected@file@percent }
+\newlabel{tab:fps_metrics}{{3}{10}{Reconstruction metrics across different frame rates}{table.caption.19}{}}
+\citation{colmap}
 \bibstyle{unsrtnat}
 \bibdata{references}
 \bibcite{seitz1999phototourism}{{1}{1999}{{Seitz and Dyer}}{{}}}
 \bibcite{zhang2010recent}{{2}{2010}{{Zhang}}{{}}}
+\@writefile{toc}{\contentsline {paragraph}{Matching Strategies in COLMAP Ablation}{11}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{11}{section.5}\protected@file@percent }
+\newlabel{fig:cfj-0.6fps}{{3a}{12}{cfj-0.6fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-0.6fps}{{a}{12}{cfj-0.6fps}{figure.caption.20}{}}
+\newlabel{fig:cfj-0.8fps}{{3b}{12}{cfj-0.8fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-0.8fps}{{b}{12}{cfj-0.8fps}{figure.caption.20}{}}
+\newlabel{fig:cfj-1.0fps}{{3c}{12}{cfj-1.0fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-1.0fps}{{c}{12}{cfj-1.0fps}{figure.caption.20}{}}
+\newlabel{fig:cfj-3.0fps}{{3d}{12}{cfj-3.0fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-3.0fps}{{d}{12}{cfj-3.0fps}{figure.caption.20}{}}
+\newlabel{fig:cfj-5.0fps}{{3e}{12}{cfj-5.0fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-5.0fps}{{e}{12}{cfj-5.0fps}{figure.caption.20}{}}
+\newlabel{fig:cfj-10.0fps}{{3f}{12}{cfj-10.0fps}{figure.caption.20}{}}
+\newlabel{sub@fig:cfj-10.0fps}{{f}{12}{cfj-10.0fps}{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  3D reconstruction results from COLMAP using video frames sampled at different frame rates. Red wireframes indicate estimated camera poses; gray points form the sparse point cloud. Higher frame rates yield denser reconstructions and more consistent trajectory estimation. }}{12}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:cfj-fps_ablation}{{3}{12}{3D reconstruction results from COLMAP using video frames sampled at different frame rates. Red wireframes indicate estimated camera poses; gray points form the sparse point cloud. Higher frame rates yield denser reconstructions and more consistent trajectory estimation}{figure.caption.20}{}}
+\newlabel{fig:lst-0.6fps}{{4a}{13}{lst-0.6fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-0.6fps}{{a}{13}{lst-0.6fps}{figure.caption.21}{}}
+\newlabel{fig:lst-0.8fps}{{4b}{13}{lst-0.8fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-0.8fps}{{b}{13}{lst-0.8fps}{figure.caption.21}{}}
+\newlabel{fig:lst-1.0fps}{{4c}{13}{lst-1.0fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-1.0fps}{{c}{13}{lst-1.0fps}{figure.caption.21}{}}
+\newlabel{fig:lst-3.0fps}{{4d}{13}{lst-3.0fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-3.0fps}{{d}{13}{lst-3.0fps}{figure.caption.21}{}}
+\newlabel{fig:lst-5.0fps}{{4e}{13}{lst-5.0fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-5.0fps}{{e}{13}{lst-5.0fps}{figure.caption.21}{}}
+\newlabel{fig:lst-10.0fps}{{4f}{13}{lst-10.0fps}{figure.caption.21}{}}
+\newlabel{sub@fig:lst-10.0fps}{{f}{13}{lst-10.0fps}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  3D reconstruction results from COLMAP using video frames sampled at different frame rates. Red wireframes indicate estimated camera poses; gray points form the sparse point cloud. Higher frame rates yield denser reconstructions and more consistent trajectory estimation. }}{13}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:lst-fps_ablation}{{4}{13}{3D reconstruction results from COLMAP using video frames sampled at different frame rates. Red wireframes indicate estimated camera poses; gray points form the sparse point cloud. Higher frame rates yield denser reconstructions and more consistent trajectory estimation}{figure.caption.21}{}}
 \bibcite{blanz1999morphable}{{3}{1999}{{Blanz and Vetter}}{{}}}
 \bibcite{cao2014facewarehouse}{{4}{2014}{{Cao et~al.}}{{Cao, Weng, Zhou, Tong, and Zhou}}}
 \bibcite{aldrian2013inverse}{{5}{2013}{{Aldrian and Smith}}{{}}}
@@ -74,9 +134,17 @@
 \bibcite{richardson2017learning}{{7}{2017}{{Richardson et~al.}}{{Richardson, Sela, Or-El, and Kimmel}}}
 \bibcite{tewari2017mofa}{{8}{2017}{{Tewari et~al.}}{{Tewari, Zollh{\"o}fer, Kim, Garrido, Bernard, P{\'e}rez, and Theobalt}}}
 \bibcite{genova2018unsupervised}{{9}{2018}{{Genova et~al.}}{{Genova, Cole, Sud, Sarna, and Freeman}}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{8}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{8}{subsection.4.1}\protected@file@percent }
 \bibcite{ringnet2019}{{10}{2019}{{Sanyal et~al.}}{{Sanyal, Bolkart, Feng, and Black}}}
+\newlabel{fig:exhaustive-25}{{5a}{14}{exhaustive-25fps}{figure.caption.23}{}}
+\newlabel{sub@fig:exhaustive-25}{{a}{14}{exhaustive-25fps}{figure.caption.23}{}}
+\newlabel{fig:exhaustive-50}{{5b}{14}{exhaustive-50fps}{figure.caption.23}{}}
+\newlabel{sub@fig:exhaustive-50}{{b}{14}{exhaustive-50fps}{figure.caption.23}{}}
+\newlabel{fig:sequential-25}{{5c}{14}{sequential-25fps}{figure.caption.23}{}}
+\newlabel{sub@fig:sequential-25}{{c}{14}{sequential-25fps}{figure.caption.23}{}}
+\newlabel{fig:sequential-50}{{5d}{14}{sequential-50fps}{figure.caption.23}{}}
+\newlabel{sub@fig:sequential-50}{{d}{14}{sequential-50fps}{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  We conducted ablation experiments on the same sample using both matching methods. We found that when the sample itself is a continuous segment extracted from the video, choosing the sequential method is physically justified, eliminating the need for redundant greedy matching. In terms of final reconstruction quality, there was no significant difference between the two methods. }}{14}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:colmap_match_ablation}{{5}{14}{We conducted ablation experiments on the same sample using both matching methods. We found that when the sample itself is a continuous segment extracted from the video, choosing the sequential method is physically justified, eliminating the need for redundant greedy matching. In terms of final reconstruction quality, there was no significant difference between the two methods}{figure.caption.23}{}}
 \bibcite{feng2021learning}{{11}{2021}{{Feng et~al.}}{{Feng, Ma, Liu, Li, Zhang, Wang, Tang, Yang, Black, and Bolkart}}}
 \bibcite{zheng2022pifuhd}{{12}{2022}{{Zheng et~al.}}{{Zheng, Huang, Xu, Zhang, Black, and Liu}}}
 \bibcite{wang2021neural}{{13}{2021}{{Wang et~al.}}{{Wang, Zhang, Zhu, Liu, and Yang}}}
@@ -91,27 +159,36 @@
 \bibcite{salazar2014accuracy}{{22}{2014}{{Salazar et~al.}}{{Salazar, Delgado, L{\'o}pez, and Mart{\'\i }nez}}}
 \bibcite{gander2020smartphone}{{23}{2020}{{Gander et~al.}}{{Gander, Khambay, and Ayoub}}}
 \bibcite{kannala2006generic}{{24}{2006}{{Kannala and Brandt}}{{}}}
-\bibcite{zhang2000flexible}{{25}{2000}{{Zhang}}{{}}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Details on Fisheye Camera Modeling}{10}{appendix.A}\protected@file@percent }
-\newlabel{app:supp}{{A}{10}{Supplementary Details on Fisheye Camera Modeling}{appendix.A}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Back-Projection via Newton–Raphson Iteration}{10}{subsection.A.1}\protected@file@percent }
-\newlabel{app:backproj}{{A.1}{10}{Back-Projection via Newton–Raphson Iteration}{subsection.A.1}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces BackProject$(x, y, \bm  {\theta }_{\mathrm  {int}})$}}{10}{algocf.2}\protected@file@percent }
-\newlabel{alg:backproj}{{2}{10}{Back-Projection via Newton–Raphson Iteration}{algocf.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Analytic Jacobians for KB Reprojection Error}{10}{subsection.A.2}\protected@file@percent }
-\newlabel{app:jacobian}{{A.2}{10}{Analytic Jacobians for KB Reprojection Error}{subsection.A.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{W.r.t. distortion coefficients $\mathbf  {k} = [k_1, k_2, k_3, k_4]^\top $:}{10}{section*.27}\protected@file@percent }
-\newlabel{eq:dr_dk}{{19}{10}{W.r.t. distortion coefficients $\mathbf {k} = [k_1, k_2, k_3, k_4]^\top $:}{equation.19}{}}
-\@writefile{toc}{\contentsline {paragraph}{W.r.t. rotation vector $\bm  {\omega }$:}{10}{section*.28}\protected@file@percent }
-\newlabel{eq:dr_domega}{{20}{10}{W.r.t. rotation vector $\boldsymbol {\omega }$:}{equation.20}{}}
+\bibcite{mai2024reliable}{{25}{2024}{{Mai et~al.}}{{Mai, Win, Duong, Kim, Cho, and Lee}}}
+\bibcite{zhu2009unsupervised}{{26}{2009}{{Zhu and Van~Gool}}{{}}}
+\bibcite{kazemi2014one}{{27}{2014}{{Kazemi and Sullivan}}{{}}}
+\bibcite{horn1987closed}{{28}{1987}{{Horn}}{{}}}
+\bibcite{chen2022face}{{29}{2022}{{Chen et~al.}}{{Chen, Liu, Wang, and Zhang}}}
+\bibcite{sagonas2013300}{{30}{2013}{{Sagonas et~al.}}{{Sagonas, Tzimiropoulos, Zafeiriou, and Pantic}}}
+\bibcite{dan2020joint}{{31}{2020}{{Dan et~al.}}{{Dan, Liu, Zhao, and Liu}}}
+\bibcite{bulat20173d}{{32}{2017}{{Bulat and Tzimiropoulos}}{{}}}
+\bibcite{colmap}{{33}{2016}{{Sch\"onberger and Frahm}}{{}}}
+\bibcite{zhang2000flexible}{{34}{2000}{{Zhang}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Details on Fisheye Camera Modeling}{16}{appendix.A}\protected@file@percent }
+\newlabel{app:supp}{{A}{16}{Supplementary Details on Fisheye Camera Modeling}{appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Back-Projection via Newton–Raphson Iteration}{16}{subsection.A.1}\protected@file@percent }
+\newlabel{app:backproj}{{A.1}{16}{Back-Projection via Newton–Raphson Iteration}{subsection.A.1}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces BackProject$(x, y, \bm  {\theta }_{\mathrm  {int}})$}}{16}{algocf.2}\protected@file@percent }
+\newlabel{alg:backproj}{{2}{16}{Back-Projection via Newton–Raphson Iteration}{algocf.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Analytic Jacobians for KB Reprojection Error}{17}{subsection.A.2}\protected@file@percent }
+\newlabel{app:jacobian}{{A.2}{17}{Analytic Jacobians for KB Reprojection Error}{subsection.A.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{W.r.t. distortion coefficients $\mathbf  {k} = [k_1, k_2, k_3, k_4]^\top $:}{17}{section*.25}\protected@file@percent }
+\newlabel{eq:dr_dk}{{29}{17}{W.r.t. distortion coefficients $\mathbf {k} = [k_1, k_2, k_3, k_4]^\top $:}{equation.29}{}}
+\@writefile{toc}{\contentsline {paragraph}{W.r.t. rotation vector $\bm  {\omega }$:}{17}{section*.26}\protected@file@percent }
+\newlabel{eq:dr_domega}{{30}{17}{W.r.t. rotation vector $\boldsymbol {\omega }$:}{equation.30}{}}
+\@writefile{toc}{\contentsline {paragraph}{W.r.t. 3D point $\mathbf  {X}$:}{17}{section*.27}\protected@file@percent }
+\newlabel{eq:dr_dX}{{34}{17}{W.r.t. 3D point $\mathbf {X}$:}{equation.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Comparison with Pinhole Model}{17}{subsection.A.3}\protected@file@percent }
+\newlabel{app:pinhole_vs_fisheye}{{A.3}{17}{Comparison with Pinhole Model}{subsection.A.3}{}}
+\newlabel{eq:pinhole_dr}{{35}{17}{Comparison with Pinhole Model}{equation.35}{}}
 \citation{zhang2000flexible}
-\@writefile{toc}{\contentsline {paragraph}{W.r.t. 3D point $\mathbf  {X}$:}{11}{section*.29}\protected@file@percent }
-\newlabel{eq:dr_dX}{{24}{11}{W.r.t. 3D point $\mathbf {X}$:}{equation.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Comparison with Pinhole Model}{11}{subsection.A.3}\protected@file@percent }
-\newlabel{app:pinhole_vs_fisheye}{{A.3}{11}{Comparison with Pinhole Model}{subsection.A.3}{}}
-\newlabel{eq:pinhole_dr}{{25}{11}{Comparison with Pinhole Model}{equation.25}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Pinhole vs. KB fisheye model properties.}}{11}{table.caption.30}\protected@file@percent }
-\newlabel{tab:model_comparison}{{1}{11}{Pinhole vs. KB fisheye model properties}{table.caption.30}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Calibration Protocol for Smartphone Fisheye Cameras}{11}{subsection.A.4}\protected@file@percent }
-\newlabel{app:calib_protocol}{{A.4}{11}{Calibration Protocol for Smartphone Fisheye Cameras}{subsection.A.4}{}}
-\gdef \@abspage@last{11}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Pinhole vs. KB fisheye model properties.}}{18}{table.caption.28}\protected@file@percent }
+\newlabel{tab:model_comparison}{{4}{18}{Pinhole vs. KB fisheye model properties}{table.caption.28}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Calibration Protocol for Smartphone Fisheye Cameras}{18}{subsection.A.4}\protected@file@percent }
+\newlabel{app:calib_protocol}{{A.4}{18}{Calibration Protocol for Smartphone Fisheye Cameras}{subsection.A.4}{}}
+\gdef \@abspage@last{18}

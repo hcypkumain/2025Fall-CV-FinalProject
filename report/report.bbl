@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -124,6 +124,60 @@ Hannah Gander, Balvinder Khambay, and Ashraf Ayoub.
 Juho Kannala and Sami~S Brandt.
 \newblock A generic camera model and calibration method for conventional, wide-angle, and fish-eye lenses.
 \newblock \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, 28\penalty0 (8):\penalty0 1335--1340, 2006.
+
+\bibitem[Mai et~al.(2024)Mai, Win, Duong, Kim, Cho, and Lee]{mai2024reliable}
+Hang-Nga Mai, Thaw~Thaw Win, Chau~Pham Duong, Jaewon Kim, Seok-Hwan Cho, and Du-Hyeong Lee.
+\newblock Reliable reference areas for 3d smiling facial model alignment: Posed vs natural smile expressions.
+\newblock \emph{International Journal of Prosthodontics}, 37\penalty0 (5):\penalty0 469--476, 2024.
+\newblock \doi{10.11607/ijp.8364}.
+
+\bibitem[Zhu and Van~Gool(2009)]{zhu2009unsupervised}
+Jiang Zhu and Luc Van~Gool.
+\newblock Unsupervised face alignment by robust nonrigid mapping.
+\newblock In \emph{Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, pages 1482--1489, 2009.
+\newblock \doi{10.1109/ICCV.2009.5459316}.
+
+\bibitem[Kazemi and Sullivan(2014)]{kazemi2014one}
+Vahid Kazemi and Josephine Sullivan.
+\newblock One millisecond face alignment with an ensemble of regression trees.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 1867--1874, 2014.
+\newblock \doi{10.1109/CVPR.2014.241}.
+
+\bibitem[Horn(1987)]{horn1987closed}
+Berthold K.~P. Horn.
+\newblock Closed-form solution of absolute orientation using unit quaternions.
+\newblock \emph{Journal of the Optical Society of America A}, 4\penalty0 (4):\penalty0 629--642, 1987.
+\newblock \doi{10.1364/JOSAA.4.000629}.
+
+\bibitem[Chen et~al.(2022)Chen, Liu, Wang, and Zhang]{chen2022face}
+Jie Chen, Yu~Liu, Gang Wang, and David Zhang.
+\newblock Face alignment in low-resolution images using super-resolution-aware networks.
+\newblock \emph{IEEE Transactions on Image Processing}, 31:\penalty0 3214--3226, 2022.
+\newblock \doi{10.1109/TIP.2022.3166249}.
+
+\bibitem[Sagonas et~al.(2013)Sagonas, Tzimiropoulos, Zafeiriou, and Pantic]{sagonas2013300}
+Christos Sagonas, Georgios Tzimiropoulos, Stefanos Zafeiriou, and Maja Pantic.
+\newblock 300 faces in-the-wild challenge: The first facial landmark localization challenge.
+\newblock In \emph{Proceedings of the IEEE International Conference on Computer Vision Workshops (ICCVW)}, pages 397--404, 2013.
+\newblock \doi{10.1109/ICCVW.2013.59}.
+
+\bibitem[Dan et~al.(2020)Dan, Liu, Zhao, and Liu]{dan2020joint}
+Zeng Dan, Feng Liu, Qijun Zhao, and Xiaoming Liu.
+\newblock Joint face alignment and 3d face reconstruction with application to face recognition.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, 42\penalty0 (3):\penalty0 664--678, 2020.
+\newblock \doi{10.1109/TPAMI.2018.2885995}.
+
+\bibitem[Bulat and Tzimiropoulos(2017)]{bulat20173d}
+Adrian Bulat and Georgios Tzimiropoulos.
+\newblock 3d face alignment in the wild using a single cnn.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 2731--2739, 2017.
+\newblock \doi{10.1109/CVPR.2017.291}.
+
+\bibitem[Sch\"onberger and Frahm(2016)]{colmap}
+Johannes~Lutz Sch\"onberger and Jan-Michael Frahm.
+\newblock {COLMAP} — structure-from-motion and multi-view stereo.
+\newblock \url{https://colmap.github.io/}, 2016.
+\newblock Open-source SfM/MVS pipeline with fisheye support since v3.7.
 
 \bibitem[Zhang(2000)]{zhang2000flexible}
 Zhengyou Zhang.

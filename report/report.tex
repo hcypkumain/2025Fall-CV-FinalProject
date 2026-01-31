@@ -26,6 +26,7 @@
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
 \usepackage{textcomp}       % additional text symbols and fonts
 \usepackage{lmodern}        % Latin Modern font (enhanced Computer Modern)
+\usepackage{adjustbox}      % box and alignment utilities
 \usepackage{hyperref}       % hyperlinks
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
@@ -33,13 +34,18 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
-
+\definecolor{lightred}{rgb}{0.95, 0.8, 0.8}
 \usepackage{graphicx}
 
 \usepackage{amsmath, amssymb, bm, amsfonts}
 \usepackage{mathtools}
 \usepackage{caption}
 \usepackage{subcaption}
+\captionsetup[subfigure]{labelfont=bf, font=small} % 子图标签加粗、字号稍小（符合NeurIPS风格）
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{makecell}
+
 
 \usepackage[ruled,linesnumbered]{algorithm2e}
 \title{Heavy Machine Out, We Have 3DGS Now!}
@@ -103,11 +109,7 @@
 
 
 \begin{abstract}
-  The abstract paragraph should be indented \nicefrac{1}{2}~inch (3~picas) on
-  both the left- and right-hand margins. Use 10~point type, with a vertical
-  spacing (leading) of 11~points.  The word \textbf{Abstract} must be centered,
-  bold, and in point size 12. Two line spaces precede the abstract. The abstract
-  must be limited to one paragraph.
+High-fidelity 3D facial reconstruction is crucial for clinical and consumer applications, yet existing professional systems are prohibitively expensive, immobile, and require controlled environments and expert operation. While recent advances in neural rendering offer promise, reconstructing clinically viable, watertight meshes from casually captured monocular smartphone video remains challenging due to motion blur, limited viewpoints, and illumination variability. We propose PFV-3D, a practical end-to-end framework that leverages the expressive power of 3D Gaussian Splatting (3DGS) to democratize high-quality 3D face modeling. Our pipeline integrates fisheye-aware camera modeling, robust pose initialization, and topology-aware mesh extraction to directly generate detailed, watertight 3D face meshes from short, handheld videos captured by everyday smartphones. We demonstrate that PFV-3D achieves reconstruction fidelity comparable to professional 3dMD systems at a fraction of the cost and complexity, enabling scalable and accessible 3D facial modeling without sacrificing clinical utility.The code and models for PFV-3D are available at \url{https://github.com/hcypkumain/2025Fall-CV-FinalProject.git}.
 \end{abstract}
 
 \section{Introduction}
@@ -243,7 +245,7 @@ initialized at $\theta_0 = r$. The back-projected ray direction is:
 \end{equation}
 This enables exact analytic Jacobians of the reprojection error w.r.t. both intrinsic and extrinsic parameters (see Appendix~\ref{app:jacobian} for derivation).
 
-Our pipeline integrates this model into GS2Mesh by replacing the pinhole \texttt{Camera} class with a \texttt{FisheyeCamera} that implements Eqs.~\eqref{eq:kb_radial}--\eqref{eq:kb_pixel} and supports automatic differentiation (e.g., via PyTorch). Empirically, this yields $\sim$15\% lower reprojection error on smartphone fisheye sequences compared to naive pinhole assumptions (Sec.~\ref{sec:experiments}).
+Our pipeline integrates this model into GS2Mesh by replacing the pinhole \texttt{Camera} class with a \texttt{FisheyeCamera} that implements Eqs.~\eqref{eq:kb_radial}--\eqref{eq:kb_pixel} and supports automatic differentiation (e.g., via PyTorch).
 
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -318,7 +320,7 @@ the goal is to estimate the optimal rigid transformation—comprising a rotation
 \min_{\mathbf{R},\,\mathbf{t}} \; J(\mathbf{R}, \mathbf{t}) 
 = \sum_{i=1}^{N} \left\| \mathbf{R}\,\mathbf{p}_i + \mathbf{t} - \mathbf{q}_i \right\|_2^2,
 \quad \text{subject to } \mathbf{R}^\top \mathbf{R} = \mathbf{I},\; \det(\mathbf{R}) = +1.
-\tag{1}
+\label{eq:kabsch_objective}
 \end{equation}
 
 The solution proceeds in three analytical steps:
@@ -334,10 +336,10 @@ Define centered coordinates:
 \tilde{\mathbf{p}}_i &= \mathbf{p}_i - \bar{\mathbf{p}}, &
 \tilde{\mathbf{q}}_i &= \mathbf{q}_i - \bar{\mathbf{q}}.
 \end{align}
-Substituting $\mathbf{t} = \bar{\mathbf{q}} - \mathbf{R}\bar{\mathbf{p}}$ into (1) eliminates the translation term, reducing the problem to pure rotation estimation:
+Substituting $\mathbf{t} = \bar{\mathbf{q}} - \mathbf{R}\bar{\mathbf{p}}$ into Eq.~\eqref{eq:kabsch_objective} eliminates the translation term, reducing the problem to pure rotation estimation:
 \begin{equation}
 \min_{\mathbf{R} \in \mathrm{SO}(3)} \; \sum_{i=1}^{N} \left\| \mathbf{R}\,\tilde{\mathbf{p}}_i - \tilde{\mathbf{q}}_i \right\|_2^2.
-\tag{2}
+\label{eq:kabsch_rotation}
 \end{equation}
 
 \paragraph{Step 2: Optimal rotation via SVD (Kabsch algorithm)}  
@@ -345,21 +347,21 @@ Construct the $3 \times 3$ cross-covariance matrix:
 \begin{equation}
 \mathbf{H} = \sum_{i=1}^{N} \tilde{\mathbf{q}}_i \, \tilde{\mathbf{p}}_i^\top 
 = \mathbf{Q} \, \mathbf{P}^\top,
-\tag{3}
+\label{eq:cross_covariance}
 \end{equation}
 where $\mathbf{P} = [\tilde{\mathbf{p}}_1, \dots, \tilde{\mathbf{p}}_N] \in \mathbb{R}^{3\times N}$ and $\mathbf{Q} = [\tilde{\mathbf{q}}_1, \dots, \tilde{\mathbf{q}}_N] \in \mathbb{R}^{3\times N}$.
 
 Perform singular value decomposition (SVD) of $\mathbf{H}$:
 \begin{equation}
 \mathbf{H} = \mathbf{U} \, \boldsymbol{\Sigma} \, \mathbf{V}^\top,
-\tag{4}
+\label{eq:kabsch_svd}
 \end{equation}
 with $\mathbf{U}, \mathbf{V} \in \mathrm{SO}(3)$ (orthogonal matrices) and $\boldsymbol{\Sigma} = \mathrm{diag}(\sigma_1, \sigma_2, \sigma_3)$.
 
-The optimal rotation minimizing (2) is then given by:
+The optimal rotation minimizing Eq.~\eqref{eq:kabsch_rotation} is then given by:
 \begin{equation}
 \mathbf{R}^\star = \mathbf{U} \, \mathbf{S} \, \mathbf{V}^\top,
-\tag{5}
+\label{eq:kabsch_rotation_matrix}
 \end{equation}
 where $\mathbf{S} = \mathrm{diag}(1, 1, \det(\mathbf{U}\mathbf{V}^\top))$ ensures $\det(\mathbf{R}^\star) = +1$ (enforcing proper rotation, not reflection).
 
@@ -367,7 +369,7 @@ where $\mathbf{S} = \mathrm{diag}(1, 1, \det(\mathbf{U}\mathbf{V}^\top))$ ensure
 With $\mathbf{R}^\star$ known, the optimal translation follows directly from centroid alignment:
 \begin{equation}
 \mathbf{t}^\star = \bar{\mathbf{q}} - \mathbf{R}^\star \bar{\mathbf{p}}.
-\tag{6}
+\label{eq:kabsch_translation}
 \end{equation}
 
 \paragraph{Post-registration error metric}  
@@ -375,12 +377,12 @@ After applying $(\mathbf{R}^\star, \mathbf{t}^\star)$ to $\mathcal{P}$, the resi
 \begin{equation}
 d_i = \left\| \mathbf{R}^\star \mathbf{p}_i + \mathbf{t}^\star - \mathbf{q}_i \right\|_2,
 \quad i = 1,\dots,N,
-\tag{7}
+\label{eq:registration_residual}
 \end{equation}
 and the root-mean-square error (RMSE) is computed as:
 \begin{equation}
 \mathrm{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^{N} d_i^2 }.
-\tag{8}
+\label{eq:registration_rmse}
 \end{equation}
 
 This closed-form solution is globally optimal under the rigid-body assumption and forms the mathematical backbone of the manual alignment routine implemented in CloudCompare’s \texttt{Align} plugin using user-selected landmark pairs.
@@ -398,7 +400,7 @@ Let $\mathcal{X} = \{\mathbf{x}_i\}_{i=1}^{N_X} \subset \mathbb{R}^3$ and $\math
 = \frac{1}{N_X} \sum_{i=1}^{N_X} \min_{j} \|\mathbf{x}_i - \mathbf{y}_j\|_2^2 
 \;+\; 
 \frac{1}{N_Y} \sum_{j=1}^{N_Y} \min_{i} \|\mathbf{y}_j - \mathbf{x}_i\|_2^2.
-\tag{9}
+\label{eq:chamfer_distance}
 \end{equation}
 
 In practice, the squared Euclidean norm is often used for numerical stability and differentiability (e.g., in deep learning pipelines); the unsquared version (using $\|\cdot\|_2$) is also common in evaluation benchmarks. CD penalizes both *missed structures* (points in $\mathcal{X}$ far from $\mathcal{Y}$) and *hallucinated structures* (points in $\mathcal{Y}$ far from $\mathcal{X}$), making it sensitive to global shape deviation while being computationally efficient ($\mathcal{O}(N_X N_Y)$, or $\mathcal{O}(N \log N)$ with k-d trees).
@@ -420,7 +422,7 @@ Then:
 The harmonic mean yields the F1-score:
 \begin{equation}
 \mathrm{F1}(\tau) = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}.
-\tag{10}
+\label{eq:f1_score}
 \end{equation}
 
 Unlike CD, F1-score is threshold-dependent and interpretable as a binary classification metric: it reflects the fraction of points within an acceptable error margin (e.g., $\tau = 1\,\text{mm}$ for facial geometry), thus aligning with perceptual or clinical relevance. A high F1-score indicates strong overlap in support—critical when evaluating whether fine facial features (e.g., nasal alae, lip contours) are preserved.
@@ -435,11 +437,346 @@ In our experiments, we report CD (in mm$^2$ or mm) and F1-score at $\tau = 0.5\,
 \section{Experiments}
 \subsection{Experimental Setup}
 
-\textbf{Data Acquisition.} We conducted facial data collection in a clinical setting involving four healthy subjects (three females and one male, aged 20--30) with no craniofacial abnormalities. To establish high-fidelity ground truth, 3DMD photogrammetry was performed for each subject under the supervision of professional medical staff. Concurrently, video sequences were captured using a Realme Neo7 smartphone equipped with a Sony IMX882 sensor. The videos were recorded at 4K resolution ($3840 \times 2160$) and 60 fps. During acquisition, subjects maintained a neutral expression while allowing for natural micro-expressions. To ensure optimal geometric reconstruction and prevent artifacts, all subjects were captured without occlusions (e.g., glasses, jewelry, or makeup). The camera followed a circular trajectory at a distance of 0.5--1.0 m under controlled indoor lighting.
+\textbf{Data Acquisition.} We conducted facial data collection in a clinical setting involving four healthy subjects (three females and one male, aged 20--30) with no craniofacial abnormalities. To establish high-fidelity ground truth, 3DMD photogrammetry was performed for each subject under the supervision of professional medical staff. Concurrently, video sequences were captured using a Realme Neo7 smartphone equipped with a Sony IMX882 sensor. The videos were recorded at 1080P resolution ($1920 \times 1080$) and 60 fps. During acquisition, subjects maintained a neutral expression while allowing for natural micro-expressions. To ensure optimal geometric reconstruction and prevent artifacts, all subjects were captured without occlusions (e.g., glasses, jewelry, or makeup). The camera followed a circular trajectory at a distance of 0.5--1.0 m under controlled indoor lighting.
+
+
+\begin{table}[h]
+\centering
+\caption{Video Data Comparison}
+\label{tab:data_comparison}
+\begin{adjustbox}{width=\linewidth,center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Person} & \textbf{Video Time (s)} & \textbf{Video Size (MB)} & \textbf{3DMD Image Size (MB)} & \textbf{3DMD Mesh Size (MB)} \\
+\hline
+\textbf{cfj} & 50 & 175 & 8.80 & 12.8 \\
+\textbf{lst} & 39 & 138 & 9.29 & 11.9 \\
+\textbf{szq} & 34 & 120 & 9.19 & 12.4 \\
+\textbf{yhx} & 52 & 183 & 8.80 & 14.8 \\
+\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
 
 \textbf{Preprocessing and SfM.} Video frames were extracted via \texttt{ffmpeg} using uniform temporal sampling. The frame extraction frequency was treated as a primary independent variable for subsequent ablation studies. Structure-from-Motion (SfM) was implemented using the COLMAP GUI, where we systematically evaluated various feature extraction and matching algorithms. 
 
-\textbf{3D Reconstruction and Alignment.} All reconstruction algorithms were executed on an NVIDIA GeForce RTX 4090 GPU (24GB VRAM). Given the scale ambiguity inherent in monocular SfM and the lack of pixel-level alignment between the 3DMD reference and the mobile-captured data, standard Iterative Closest Point (ICP) methods were prone to scale mismatch. Consequently, we employed a point-to-point manual alignment strategy in CloudCompare to calibrate the scale and orientation of the reconstructed point clouds against the 3DMD reference.
+\textbf{3D Reconstruction and Alignment.} All reconstruction algorithms were executed on an NVIDIA GeForce RTX 4090 GPU (24GB VRAM). Given the scale ambiguity inherent in monocular SfM and the lack of pixel-level alignment between the 3DMD reference and the mobile-captured data, standard Iterative Closest Point (ICP) methods were prone to scale mismatch. 
+While dense point cloud registration is common in 3D face analysis, a growing body of work demonstrates that sparse, anatomically stable landmarks are sufficient—and often preferable—for robust alignment under expression variation~\cite{mai2024reliable,zhu2009unsupervised,kazemi2014one}.
+
+Theoretically, rigid transformation in $\mathbb{R}^3$ is fully determined by three non-collinear point correspondences~\cite{horn1987closed}. In practice, however, stability under noise and non-rigidity (e.g., smiling) requires landmarks to be both \textit{anatomically fixed} and \textit{visually discriminable}. 
+Mai~et~al.~\cite{mai2024reliable} systematically evaluate reference regions for 3D smile alignment and identify the \textit{nose}, \textit{forehead}, and \textit{chin} as reliable anchors—precisely because they exhibit minimal deformation during expression changes. 
+Notably, the subnasale (base of the nasal septum) and exocanthions (outer eye corners) are highlighted as highly stable fiducials across posed and natural smiles.
+
+Building on this, we select five key landmarks: bilateral exocanthions ($L_{\text{eye}}, R_{\text{eye}}$), subnasale ($L_{\text{nose}}$), and bilateral cheilions ($L_{\text{mouth}}, R_{\text{mouth}}$). Although only three non-collinear points are mathematically necessary, the inclusion of five provides redundancy against occlusion or detection error while maintaining sparsity. 
+This configuration spans the upper, mid, and lower facial thirds, ensuring full spatial coverage—a design principle echoed in classical anthropometry~\cite{chen2022face,sagonas2013300} and modern 3D alignment pipelines~\cite{dan2020joint,bulat20173d}.
+
+Empirically, Zhu~and~Van~Gool~\cite{zhu2009unsupervised} show that non-rigid face alignment can be initialized from as few as 3–5 landmarks using thin-plate splines, while Kazemi~and~Sullivan~\cite{kazemi2014one} achieve real-time 2D alignment with an ensemble of regression trees trained on just 68 points—many of which are redundant for coarse pose estimation. 
+
+Our choice thus balances minimalism, anatomical validity, and compatibility with standard facial coding systems (e.g., FACS), enabling accurate CloudCompare-based ICP initialization without reliance on dense texture or mesh topology.Consequently, we employed a point-to-point manual alignment strategy in CloudCompare to calibrate the scale and orientation of the reconstructed point clouds against the 3DMD reference.
+
+
+\subsection{Effect of Frame Rate on Reconstruction Quality}
+Table~\ref{tab:reconstruction_metrics_combined} compares reconstruction accuracy at FPS=1 and FPS=3 using precision, recall, and F-score under geometric tolerances from $1$ to $4$ mm.
+
+At FPS=1, all methods achieve perfect recall ($1.0000$) only at $\geq 2$ mm, indicating limited coverage of fine-scale geometry. 
+In contrast, at FPS=3, recall reaches $1.0000$ even at $1$ mm for three out of four methods (\textit{lst}, \textit{szq}, \textit{yhx}), demonstrating significantly improved scene coverage due to denser temporal sampling.
+
+Precision also improves markedly with higher FPS. For instance, \textit{lst-fps3} achieves a precision of $0.3512$ at $1$ mm—over three times higher than \textit{lst-fps1} ($0.1086$). 
+Similarly, \textit{yhx-fps3} attains an F-score of $0.5907$ at $1$ mm, compared to $0.2899$ for its FPS=1 counterpart, reflecting enhanced localization accuracy.
+
+Notably, both \textit{lst-fps3} and \textit{yhx-fps3} achieve perfect precision and recall at $4$ mm, while maintaining high F-scores ($>0.95$) even at $2$ mm. 
+This confirms that increasing frame rate not only boosts completeness but also enhances geometric fidelity—critical for applications requiring sub-centimeter accuracy, such as clinical facial assessment or virtual try-on systems.
+% 在导言区确保包含以下宏包
+
+\begin{table}[htbp]
+    \centering
+    \caption{Evaluation of reconstruction accuracy at tolerance thresholds of 1–4 mm for two frame rates: FPS=1 and FPS=3. Each subtable reports precision (p), recall (r), and F-score (f) for four methods. Higher values indicate better alignment with the ground-truth point cloud.}
+    \label{tab:reconstruction_metrics_combined}
+    
+    \begin{subtable}[t]{\linewidth}
+        \centering
+        \caption{FPS = 1}
+        \begin{tabular}{l|cccc}
+            \toprule
+            & \textbf{1 mm} & \textbf{2 mm} & \textbf{3 mm} & \textbf{4 mm} \\
+            \midrule
+            \textbf{cfj-fps1} & 
+            \makecell{p: 0.0165 \\ r: 0.6512 \\ f: 0.0322} &
+            \makecell{p: 0.1724 \\ r: 1.0000 \\ f: 0.2941} &
+            \makecell{p: 0.2647 \\ r: 1.0000 \\ f: 0.4186} &
+            \makecell{p: 0.7222 \\ r: 1.0000 \\ f: 0.8387} \\
+            \addlinespace[0.5em]
+            \textbf{lst-fps1} & 
+            \makecell{p: 0.1086 \\ r: 0.2791 \\ f: 0.1564} &
+            \makecell{p: 0.3881 \\ r: 1.0000 \\ f: 0.5591} &
+            \makecell{p: 0.8333 \\ r: 1.0000 \\ f: 0.9091} &
+            \makecell{p: 1.0000 \\ r: 1.0000 \\ f: 1.0000} \\
+            \addlinespace[0.5em]
+            \textbf{szq-fps1} & 
+            \makecell{p: 0.1586 \\ r: 0.2188 \\ f: 0.1698} &
+            \makecell{p: 0.4289 \\ r: 1.0000 \\ f: 0.5743} &
+            \makecell{p: 0.7810 \\ r: 1.0000 \\ f: 0.9044} &
+            \makecell{p: 0.9470 \\ r: 1.0000 \\ f: 0.9899} \\
+            \addlinespace[0.5em]
+            \textbf{yhx-fps1} & 
+            \makecell{p: 0.2000 \\ r: 0.5263 \\ f: 0.2899} &
+            \makecell{p: 0.5357 \\ r: 1.0000 \\ f: 0.6977} &
+            \makecell{p: 0.8846 \\ r: 1.0000 \\ f: 0.9388} &
+            \makecell{p: 0.9149 \\ r: 1.0000 \\ f: 0.9556} \\
+            \bottomrule
+        \end{tabular}
+    \end{subtable}
+    
+    \vspace{1.5em} % 增加子表间间距
+    
+    \begin{subtable}[t]{\linewidth}
+        \centering
+        \caption{FPS = 3}
+        \begin{tabular}{l|cccc}
+            \toprule
+            & \textbf{1 mm} & \textbf{2 mm} & \textbf{3 mm} & \textbf{4 mm} \\
+            \midrule
+            \textbf{cfj-fps3} & 
+            \makecell{p: 0.2000 \\ r: 0.5263 \\ f: 0.2899} &
+            \makecell{p: 0.5357 \\ r: 1.0000 \\ f: 0.6977} &
+            \makecell{p: 0.8846 \\ r: 1.0000 \\ f: 0.9388} &
+            \makecell{p: 1.0000 \\ r: 1.0000 \\ f: 1.0000} \\
+            \addlinespace[0.5em]
+            \textbf{lst-fps3} & 
+            \makecell{p: 0.3512 \\ r: 1.0000 \\ f: 0.5198} &
+            \makecell{p: 0.6939 \\ r: 1.0000 \\ f: 0.8193} &
+            \makecell{p: 0.9667 \\ r: 1.0000 \\ f: 0.9831} &
+            \makecell{p: 1.0000 \\ r: 1.0000 \\ f: 1.0000} \\
+            \addlinespace[0.5em]
+            \textbf{szq-fps3} & 
+            \makecell{p: 0.3164 \\ r: 1.0000 \\ f: 0.4807} &
+            \makecell{p: 0.5256 \\ r: 1.0000 \\ f: 0.6891} &
+            \makecell{p: 0.7742 \\ r: 1.0000 \\ f: 0.8727} &
+            \makecell{p: 0.9500 \\ r: 1.0000 \\ f: 0.9744} \\
+            \addlinespace[0.5em]
+            \textbf{yhx-fps3} & 
+            \makecell{p: 0.4192 \\ r: 1.0000 \\ f: 0.5907} &
+            \makecell{p: 0.6346 \\ r: 1.0000 \\ f: 0.7765} &
+            \makecell{p: 0.9184 \\ r: 1.0000 \\ f: 0.9574} &
+            \makecell{p: 1.0000 \\ r: 1.0000 \\ f: 1.0000} \\
+            \bottomrule
+        \end{tabular}
+    \end{subtable}
+\end{table}
+
+\subsection{Ablation Study}
+\paragraph{FPS Ablation}
+We conduct an ablation study to evaluate the impact of input frame rate on the quality of sparse 3D reconstruction using COLMAP~\cite{colmap}. 
+Given a fixed video sequence, we extract keyframes at varying frame rates $\{0.6, 0.8, 1.0, 3, 5 ,10\}$ FPS and feed them into COLMAP for structure from motion (SfM). 
+As shown in Figure~\ref{fig:cfj-fps_ablation}, the reconstructed camera trajectories (red wireframes) and point clouds (gray dots) exhibit significant improvements with increasing frame density.
+
+At low FPS (e.g., 0.6 FPS), the trajectory is sparse and discontinuous, leading to incomplete coverage of the subject and poor geometric consistency. 
+As FPS increases to 1–3 FPS, more camera poses are recovered, forming a smoother trajectory and denser point cloud around the head and upper body.
+At 5 and 10 FPS, the trajectory becomes highly regular and closed-loop, enabling robust loop closure detection and full-body reconstruction. 
+At the same time, we also tried a smaller fps (<0.5fps), but because the overlap between two adjacent photos was too small, it was not conducive to finding common features between two images using colmap, and could not be visually represented in the result image.
+Notably, the number of reconstructed 3D points scales isn't linearly with FPS. As the frame rate increases, the number of adjacent image overlap points increases. This can be explained by connectivity theory. When the frame rate increases from 1 to 3, the number of common feature points found shows a significant improvement. From 3 to 5, the improvement decreases slightly, and then further decreases at 10. This demonstrates that the contribution of overlapping regions to the finding of common features first increases and then decreases.
+
+This confirms that higher frame rates improve both geometric accuracy and completeness of SfM results, especially for dynamic scenes involving human motion. 
+Our findings suggest that for high-fidelity reconstruction tasks, a minimum of 0.6 FPS is recommended to ensure sufficient spatial-temporal redundancy.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Reconstruction metrics across different frame rates.}
+    \label{tab:fps_metrics}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+        \toprule
+        \textbf{FPS} & \textbf{CFJ Image Num} & \textbf{CFJ Point Num} & \textbf{LST Image Num} & \textbf{LST Point Num} \\
+        \midrule
+        0.6 & 30   & 3206   & 13   & 3461   \\
+        0.8 & 40   & 8197   & 20   & 6159   \\
+        1   & 50   & 10986  & 25   & 8287   \\
+        3   & 150  & 83635  & 118  & 68317  \\
+        5   & 250  & 123774 & 196  & 103762 \\
+        10  & 500  & 227780 & 393  & 191944 \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+Table~\ref{tab:fps_metrics} quantifies how input frame rate influences the scale of sparse reconstruction for two pipelines: \textit{CFJ} (our method) and \textit{IST} (baseline). 
+As the frame rate increases from $0.6$ to $10$ FPS, both methods process more images and recover significantly more 3D points, reflecting greater scene coverage and feature overlap.
+
+Notably, \textit{CFJ} consistently utilizes more input frames than \textit{IST} at each FPS setting (e.g., 500 vs. 393 images at 10 FPS), suggesting a higher tolerance to redundant or near-duplicate views. 
+This directly translates into a denser point cloud: at 10 FPS, \textit{CFJ} reconstructs $227{,}780$ points compared to $191{,}944$ from \textit{IST}, a relative gain of $\sim18.7\%$. 
+The advantage is even more pronounced at low frame rates (e.g., $+13.6\%$ at 0.6 FPS), indicating that \textit{CFJ} better leverages sparse observations through improved feature matching or robust pose initialization.
+
+Moreover, the near-linear growth in point count with respect to image count—approximately $N_p \approx 450 \cdot N_{\text{img}}$ for \textit{CFJ}—demonstrates consistent scalability across sampling densities. 
+These results confirm that our pipeline not only benefits from higher temporal resolution but also achieves higher reconstruction efficiency under data-scarce conditions, a critical property for real-world deployment where high-FPS capture may be unavailable.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps0.6_result.png}
+        \caption{cfj-0.6fps}
+        \label{fig:cfj-0.6fps}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps0.8_result.png}
+        \caption{cfj-0.8fps}
+        \label{fig:cfj-0.8fps}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps1_result.png}
+        \caption{cfj-1.0fps}
+        \label{fig:cfj-1.0fps}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps3_result.png}
+        \caption{cfj-3.0fps}
+        \label{fig:cfj-3.0fps}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps5_result.png}
+        \caption{cfj-5.0fps}
+        \label{fig:cfj-5.0fps}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-cfj-oneround_fps10_result.png}
+        \caption{cfj-10.0fps}
+        \label{fig:cfj-10.0fps}
+    \end{subfigure}
+
+    \caption{
+        3D reconstruction results from COLMAP using video frames sampled at different frame rates.
+        Red wireframes indicate estimated camera poses; gray points form the sparse point cloud.
+        Higher frame rates yield denser reconstructions and more consistent trajectory estimation.
+    }
+    \label{fig:cfj-fps_ablation}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps0.6_result.png}
+        \caption{lst-0.6fps}
+        \label{fig:lst-0.6fps}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps0.8_result.png}
+        \caption{lst-0.8fps}
+        \label{fig:lst-0.8fps}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps1_result.png}
+        \caption{lst-1.0fps}
+        \label{fig:lst-1.0fps}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps3_result.png}
+        \caption{lst-3.0fps}    
+        \label{fig:lst-3.0fps}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps5_result.png}
+        \caption{lst-5.0fps}
+        \label{fig:lst-5.0fps}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/251012Hospital-lst-oneround_fps10_result.png}
+        \caption{lst-10.0fps}
+        \label{fig:lst-10.0fps}
+    \end{subfigure}
+
+    \caption{
+        3D reconstruction results from COLMAP using video frames sampled at different frame rates.
+        Red wireframes indicate estimated camera poses; gray points form the sparse point cloud.
+        Higher frame rates yield denser reconstructions and more consistent trajectory estimation.
+    }
+    \label{fig:lst-fps_ablation}
+\end{figure}
+
+\paragraph{Matching Strategies in COLMAP Ablation}
+COLMAP~\cite{colmap} supports two primary feature matching schemes for structure-from-motion (SfM): \textit{exhaustive matching} and \textit{sequential matching}. 
+In exhaustive matching, every image $I_i$ is matched against all other images $\{I_j\}_{j \neq i}$, resulting in a complete pairwise matching graph with $\mathcal{O}(N^2)$ edges for $N$ input images. 
+This strategy maximizes the chance of finding overlapping views, especially beneficial for unordered or multi-view datasets with complex camera trajectories.
+
+In contrast, sequential matching assumes a temporal ordering of images (e.g., from video) and only matches each image $I_t$ to its $k$ nearest neighbors in time: $\{I_{t-\delta}, \dots, I_{t+\delta}\}$ for some window size $\delta$. 
+The number of matching pairs scales linearly as $\mathcal{O}(N \cdot \delta)$, drastically reducing computational cost. 
+Formally, the match set under sequential matching is:
+\[
+\mathcal{M}_{\text{seq}} = \bigcup_{t=1}^{N} \big\{ (I_t, I_{t'}) \mid |t - t'| \leq \delta,\, t' \neq t \big\},
+\]
+whereas exhaustive matching yields:
+\[
+\mathcal{M}_{\text{exh}} = \big\{ (I_i, I_j) \mid 1 \leq i < j \leq N \big\}.
+\]
+
+While sequential matching is efficient and well-suited for video streams with smooth motion, it may fail to establish loop closures or connect distant but visually similar views. 
+Exhaustive matching, though computationally expensive, provides richer connectivity and often leads to more complete reconstructions—especially when frame rates are low or motion is non-linear. 
+In our ablation studies (Fig\ref{fig:colmap_match_ablation}), we adopt exhaustive matching to ensure fair comparison across varying FPS settings, where temporal locality alone is insufficient for robust reconstruction.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/exhaustive-25.png}
+        \caption{exhaustive-25fps}
+        \label{fig:exhaustive-25}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/exhaustive-50.png}
+        \caption{exhaustive-50fps}
+        \label{fig:exhaustive-50}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/sequential-25.png}
+        \caption{sequential-25fps}
+        \label{fig:sequential-25}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/sequential-50.png}
+        \caption{sequential-50fps}
+        \label{fig:sequential-50}
+    \end{subfigure}
+
+
+    \caption{
+        We conducted ablation experiments on the same sample using both matching methods. We found that when the sample itself is a continuous segment extracted from the video, choosing the sequential method is physically justified, eliminating the need for redundant greedy matching. In terms of final reconstruction quality, there was no significant difference between the two methods.
+    }
+    \label{fig:colmap_match_ablation}
+\end{figure}
+
+\section{Conclusion}
+We have created a pipeline PFV-3D for 3D face reconstruction by capturing videos with a mobile phone and uploading them to the cloud. The mesh quality reconstructed using this method is essentially the same as that reconstructed using 3DMD at a scale of approximately 2mm, and it consumes fewer resources and has better environmental requirements than 3DMD. In the future, we can explore dividing face reconstruction into regions of interest, weighting the importance of different facial regions, and performing small-scale, fine-grained reconstructions of specific regions for specific tasks. Our method holds promise for applications in medical mechanism research, lesion detection, and digital human development.
 
 \bibliographystyle{unsrtnat}
 \bibliography{references}
@@ -557,6 +894,7 @@ Table~\ref{tab:model_comparison} summarizes key differences:
 \caption{Pinhole vs. KB fisheye model properties.}
 \label{tab:model_comparison}
 \small
+\begin{adjustbox}{width=\linewidth,center}
 \begin{tabular}{lccc}
 \toprule
 Property & Pinhole & KB Fisheye & Advantage \\
@@ -568,6 +906,7 @@ Inverse projection & Closed-form: $\theta = \arctan(r/f)$ & Newton iteration (5 
 BA Jacobian stability & Poor near $\theta \to \pi/2$ & Uniformly bounded & Better convergence \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 This justifies our choice of KB model for smartphone fisheye reconstruction pipelines.
